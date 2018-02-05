@@ -13,15 +13,15 @@ public class User {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     @Size(min = 3, max = 15)
     private String username;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     @Email
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     @Size(min = 5, max = 20)
     private String password;
 
