@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("first.spring.app.controller")
+@ComponentScan("first.spring.app.controllers")
 public class WebConfig implements WebMvcConfigurer {
 
     @Bean

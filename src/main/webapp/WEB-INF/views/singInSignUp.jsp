@@ -73,7 +73,7 @@
         </div>
     </div>
 </div>
-<div id="footer" class="container-fluid bg-dark text-light text-center">
+<div id="footer" class="container-fluid bg-dark text-light text-center fixed-bottom">
     &copy; 2018 ToDoList
 </div>
 </body>
