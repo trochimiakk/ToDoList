@@ -15,11 +15,9 @@
     <meta charset="UTF-8" />
     <title>Spring MVC ToDoList</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>">
     <script src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
-    <style>
-        .img{width: 100%; height: auto;}
-    </style>
 </head>
 <body>
 <div id="nav" class="sticky-top">
@@ -28,7 +26,7 @@
     </nav>
 </div>
 <div id="header" class="container-fluid">
-    <img src="<c:url value="/resources/img/logo.png"/>" class="img-fluid"/>
+    <img src="<c:url value="/resources/img/logo.png"/>" class="logoImg"/>
 </div>
 <div id="content" class="container p-2">
     <div id="cards" class="card-group text-center p-2">
@@ -54,11 +52,8 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" name="password" required placeholder="Password">
                     </div>
-                    <input type="hidden"
-                           name="${_csrf.parameterName}"
-                           value="${_csrf.token}"/>
                     <button type="submit" class="btn btn-outline-success">Sign in</button>
                 </form:form>
             </div>
