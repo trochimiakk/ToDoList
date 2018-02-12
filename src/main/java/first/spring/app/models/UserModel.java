@@ -10,13 +10,18 @@ import javax.validation.constraints.Size;
 @Table(name = "users")
 public class UserModel {
 
+    public UserModel(){
+        this.role = "USER";
+        this.enabled = true;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
     @Column(name = "username", unique = true, nullable = false)
-    @Size(min = 3, max = 20)
+    @Size(min = 3, max = 20, message = "Username length must be between 3 and 20")
     private String username;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -25,8 +30,11 @@ public class UserModel {
     private String email;
 
     @Column(name = "password", nullable = false)
-    @Size(min = 5, max = 20)
+    @Size(min = 5, max = 100, message = "Password length must be between 5 and 100")
     private String password;
+
+    @Transient
+    private String confirmPassword;
 
     @Column(name = "enabled")
     private boolean enabled;
@@ -73,6 +81,14 @@ public class UserModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public boolean isEnabled() {

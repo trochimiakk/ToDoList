@@ -9,6 +9,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="C" uri="http://www.springframework.org/tags" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -45,7 +46,7 @@
                 </div>
             </c:if>
             <div class="card-body">
-                <form:form action="/login" method='POST'>
+                <form:form action="/login" method="POST">
                     <div class="form-group">
                         <label for="email">Email address</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email">
@@ -63,21 +64,35 @@
                 Sign up
             </div>
             <div class="card-body">
-                <form>
+                <c:if test="${not empty registered}">
+                    <div class="alert alert-success" role="alert">
+                            ${registered}
+                    </div>
+                </c:if>
+                <form:form action="/register" modelAttribute="user" method='POST'>
+                    <C:hasBindErrors name="user">
+                        <div id="registrationErrors" class="alert alert-danger">
+                            <form:errors path="*"/>
+                        </div>
+                    </C:hasBindErrors>
                     <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="registrationEmail"  placeholder="Email">
+                        <sf:label path="email">Email address</sf:label>
+                        <sf:input path="email" cssClass="form-control" placeholder="Email"></sf:input>
                     </div>
                     <div class="form-group">
-                        <label for="registerPassword1">Password</label>
-                        <input type="password" class="form-control" id="registerPassword1" placeholder="Password">
+                        <sf:label path="username">Username</sf:label>
+                        <sf:input path="username" cssClass="form-control" placeholder="Username"></sf:input>
                     </div>
                     <div class="form-group">
-                        <label for="registerPassword2">Confirm password</label>
-                        <input type="password" class="form-control" id="registerPassword2" placeholder="Retype password">
+                        <sf:label path="password">Password</sf:label>
+                        <sf:password path="password" cssClass="form-control" placeholder="Password"></sf:password>
+                    </div>
+                    <div class="form-group">
+                        <sf:label path="confirmPassword">Confirm password</sf:label>
+                        <sf:password path="confirmPassword" cssClass="form-control" placeholder="Retype password"></sf:password>
                     </div>
                     <button type="submit" class="btn btn-outline-secondary">Sign up</button>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>
