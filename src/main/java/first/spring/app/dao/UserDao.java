@@ -31,14 +31,7 @@ public class UserDao {
     }
 
     public UserModel findUserByUsername(String username){
-        try{
-            return sessionFactory.getCurrentSession().createQuery("from UserModel u where u.username=:username", UserModel.class)
-                    .setParameter("username", username).getSingleResult();
-        } catch (NoResultException ex){
-            return null;
-        }
-
-
+            return sessionFactory.getCurrentSession().get(UserModel.class, username);
     }
 
 

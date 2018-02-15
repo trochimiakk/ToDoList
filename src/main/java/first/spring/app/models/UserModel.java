@@ -14,11 +14,7 @@ public class UserModel {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
-
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username")
     @Size(min = 3, max = 20, message = "Username length must be between 3 and 20")
     private String username;
 
@@ -47,14 +43,6 @@ public class UserModel {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getUsername() {
