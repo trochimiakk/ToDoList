@@ -48,8 +48,8 @@
             <div class="card-body">
                 <form:form action="/login" method="POST">
                     <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" required name="username" placeholder="Username">
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
