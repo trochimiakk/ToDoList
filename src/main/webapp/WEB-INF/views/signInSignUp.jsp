@@ -23,7 +23,7 @@
 <body>
 <div id="nav" class="sticky-top">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="#"><img src="<c:url value="/resources/img/logo-small.png"/>" width="40" height="35"> ToDoList</a>
+        <a class="navbar-brand" href="/"><img src="<c:url value="/resources/img/logo-small.png"/>" width="40" height="35"> ToDoList</a>
     </nav>
 </div>
 <div id="header" class="container-fluid">
@@ -77,19 +77,19 @@
                     </C:hasBindErrors>
                     <div class="form-group">
                         <sf:label path="email">Email address</sf:label>
-                        <sf:input path="email" cssClass="form-control" placeholder="Email"></sf:input>
+                        <sf:input path="email" cssClass="form-control" required="true" placeholder="Email"></sf:input>
                     </div>
                     <div class="form-group">
                         <sf:label path="username">Username</sf:label>
-                        <sf:input path="username" cssClass="form-control" placeholder="Username"></sf:input>
+                        <sf:input path="username" cssClass="form-control" required="true" placeholder="Username"></sf:input>
                     </div>
                     <div class="form-group">
                         <sf:label path="password">Password</sf:label>
-                        <sf:password path="password" cssClass="form-control" placeholder="Password"></sf:password>
+                        <sf:password path="password" cssClass="form-control" required="true" placeholder="Password"></sf:password>
                     </div>
                     <div class="form-group">
                         <sf:label path="confirmPassword">Confirm password</sf:label>
-                        <sf:password path="confirmPassword" cssClass="form-control" placeholder="Retype password"></sf:password>
+                        <sf:password path="confirmPassword" cssClass="form-control" required="true" placeholder="Retype password"></sf:password>
                     </div>
                     <button type="submit" class="btn btn-outline-secondary">Sign up</button>
                 </form:form>

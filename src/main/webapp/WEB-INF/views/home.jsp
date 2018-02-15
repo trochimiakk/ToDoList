@@ -22,7 +22,7 @@
 <body>
 <div id="nav" class="sticky-top">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="#"><img src="<c:url value="/resources/img/logo-small.png"/>" width="40" height="35"> ToDoList</a>        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/"><img src="<c:url value="/resources/img/logo-small.png"/>" width="40" height="35"> ToDoList</a>        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
@@ -31,7 +31,7 @@
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">...</a>
+                    <a class="nav-link" href="/tasks">Create task</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">...</a>
