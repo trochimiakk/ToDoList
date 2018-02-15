@@ -21,11 +21,9 @@ public class UserDao {
     BCryptPasswordEncoder passwordEncoder;
 
     public UserModel findUserByEmail(String email){
-        CriteriaQuery<UserModel> criteriaQuery = sessionFactory.getCriteriaBuilder().createQuery(UserModel.class);
-        Root<UserModel> root = criteriaQuery.from(UserModel.class);
-        criteriaQuery.select(root).where(sessionFactory.getCriteriaBuilder().equal(root.get("email"), email));
-        try {
-            return sessionFactory.getCurrentSession().createQuery(criteriaQuery).getSingleResult();
+        try{
+            return sessionFactory.getCurrentSession().createQuery("from UserModel u where u.email=:email", UserModel.class)
+                    .setParameter("email", email).getSingleResult();
         } catch (NoResultException ex){
             return null;
         }
@@ -33,14 +31,13 @@ public class UserDao {
     }
 
     public UserModel findUserByUsername(String username){
-        CriteriaQuery<UserModel> criteriaQuery = sessionFactory.getCriteriaBuilder().createQuery(UserModel.class);
-        Root<UserModel> root = criteriaQuery.from(UserModel.class);
-        criteriaQuery.select(root).where(sessionFactory.getCriteriaBuilder().equal(root.get("username"), username));
-        try {
-            return sessionFactory.getCurrentSession().createQuery(criteriaQuery).getSingleResult();
+        try{
+            return sessionFactory.getCurrentSession().createQuery("from UserModel u where u.username=:username", UserModel.class)
+                    .setParameter("username", username).getSingleResult();
         } catch (NoResultException ex){
             return null;
         }
+
 
     }
 
