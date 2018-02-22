@@ -59,18 +59,24 @@
         </div>
     </div>
 </div>
-<div id="content" class="container p-2 mb-5 text-center">
-    <div class="row">
-        <div class="col-sm-12 bg-dark text-light font-weight-bold">
-            Created tasks
+<div id="content" class="container p-2 mb-5 text-center font-weight-bold">
+    <div class="card">
+        <div class="card-header bg-dark text-light">
+            <h6>
+                Created tasks
+            </h6>
         </div>
-        <div class="col-sm-12 border-bottom">
-            ${allCreatedTasks}
+        <div class="card-body">
+            <strong>${allCreatedTasks}
         </div>
-        <div class="col-sm-12 bg-dark text-light font-weight-bold">
-            Completed tasks
+    </div>
+    <div class="card">
+        <div class="card-header bg-dark text-light">
+            <h6>
+                Completed tasks
+            </h6>
         </div>
-        <div class="col-sm-12 border-bottom">
+        <div class="card-body">
             ${allCompletedTasks}
         </div>
     </div>
