@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "tasks")
@@ -29,7 +30,7 @@ public class TaskModel {
 
     @Column(name = "date", nullable = false)
     @Future(message = "Date must be a future date")
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
+    @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime date;
 
     @ManyToOne
@@ -71,6 +72,16 @@ public class TaskModel {
 
     public LocalDateTime getDate() {
         return date;
+    }
+
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
+        return date.format(formatter);
+    }
+
+    public String getTime(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return date.format(formatter);
     }
 
     public void setDate(LocalDateTime date) {

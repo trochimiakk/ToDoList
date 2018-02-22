@@ -19,8 +19,8 @@ public class UserModel {
     private String username;
 
     @Column(name = "email", unique = true, nullable = false)
-    @Email
-    @Size(max = 50)
+    @Email(message = "Email address is invalid")
+    @Size(max = 50, message = "Email adress length must be less than or equal to 50")
     private String email;
 
     @Column(name = "password", nullable = false)

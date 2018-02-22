@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class TaskService {
 
@@ -15,5 +19,29 @@ public class TaskService {
     @Transactional
     public void saveTask(TaskModel task){
         taskDao.saveTask(task);
+    }
+
+    @Transactional
+    public List<TaskModel> findTaskByUsername(String username){
+        return taskDao.findTaskByUsername(username);
+    }
+
+    @Transactional
+    public List<TaskModel> findTodaysTaskByUsername(String username) {
+        return taskDao.findTodaysTaskByUsername(username);
+    }
+
+    @Transactional
+    public List<TaskModel> findNotTodaysTaskByUsername(String username) {
+        return taskDao.findNotTodaysTaskByUsername(username);
+    }
+
+    @Transactional
+    public Map<String,Long> createUserStats(String username) {
+        Map<String, Long> userStats = new HashMap<>();
+        userStats.put("allCreatedTasks", taskDao.countTasksByUsername(username));
+        userStats.put("allCompletedTasks", taskDao.countCompletedTasksByUsername(username));
+
+        return userStats;
     }
 }

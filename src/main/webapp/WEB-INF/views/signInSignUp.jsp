@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="C" uri="http://www.springframework.org/tags" %>
 <!doctype html>
 <html lang="en">
@@ -46,7 +45,7 @@
                 </div>
             </c:if>
             <div class="card-body">
-                <form:form action="/login" method="POST">
+                <sf:form action="/login" method="POST">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" required name="username" placeholder="Username">
@@ -56,7 +55,7 @@
                         <input type="password" class="form-control" id="password" name="password" required placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-outline-success">Sign in</button>
-                </form:form>
+                </sf:form>
             </div>
         </div>
         <div class="card text-center">
@@ -69,10 +68,10 @@
                             ${registered}
                     </div>
                 </c:if>
-                <form:form action="/register" modelAttribute="user" method='POST'>
+                <sf:form action="/register" modelAttribute="user" method='POST'>
                     <C:hasBindErrors name="user">
                         <div id="registrationErrors" class="alert alert-danger">
-                            <form:errors path="*"/>
+                            <sf:errors path="*"/>
                         </div>
                     </C:hasBindErrors>
                     <div class="form-group">
@@ -92,7 +91,7 @@
                         <sf:password path="confirmPassword" cssClass="form-control" required="true" placeholder="Retype password"></sf:password>
                     </div>
                     <button type="submit" class="btn btn-outline-secondary">Sign up</button>
-                </form:form>
+                </sf:form>
             </div>
         </div>
     </div>

@@ -7,8 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -34,14 +34,17 @@
                     <a class="nav-link" href="/tasks">Create task</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">...</a>
+                    <sec:authentication var="principal" property="principal" scope="session"/>
+                    <a class="nav-link" href="/users/${principal.username}/tasks/today">Today's tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/${principal.username}/tasks/other">Other tasks</a>
                 </li>
             </ul>
-
-            <button type="button" class="btn btn-outline-success">Welcome, <sec:authentication property="principal.username" /></button>
-            <form:form action="/logout" method="post">
+            <a href="<c:url value="/users/${principal.username}"/>"><button type="button" class="btn btn-outline-success">Welcome, ${principal.username}</button></a>
+            <sf:form action="/logout" method="post">
                 <button type="submit" class="btn btn-outline-info">Sign out</button>
-            </form:form>
+            </sf:form>
         </div>
     </nav>
 </div>
@@ -76,7 +79,7 @@
 
     In sit amet congue eros. Fusce gravida congue libero et blandit. Curabitur posuere, odio quis molestie vehicula, erat enim eleifend est, sed vulputate lectus tortor a lacus. Pellentesque vitae diam gravida, auctor sapien sit amet, convallis nibh. Suspendisse sodales erat et tortor finibus vehicula. Integer nec quam tellus. Nullam orci risus, pellentesque sed egestas at, pellentesque a arcu. Nulla venenatis ultrices quam sed aliquet. Integer eu nisi leo. Cras vitae libero quis orci auctor dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum lobortis vel justo eget congue.
 </div>
-<div id="footer" class="container-fluid bg-dark text-light text-center">
+<div id="footer" class="container-fluid bg-dark text-light text-center fixed-bottom">
     &copy; 2018 ToDoList
 </div>
 </body>

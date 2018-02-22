@@ -31,8 +31,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Create task <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tasks">Create task</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/${principal.username}/tasks/today">Today's tasks</a>
@@ -41,6 +41,7 @@
                     <a class="nav-link" href="/users/${principal.username}/tasks/other">Other tasks</a>
                 </li>
             </ul>
+
             <a href="<c:url value="/users/${principal.username}"/>"><button type="button" class="btn btn-outline-success">Welcome, ${principal.username}</button></a>
             <sf:form action="/logout" method="post">
                 <button type="submit" class="btn btn-outline-info">Sign out</button>
@@ -48,33 +49,28 @@
         </div>
     </nav>
 </div>
-<div id="header" class="container-fluid">
-    <img src="<c:url value="/resources/img/logo.png"/>" class="logoImg"/>
+<div id="header" class="container-fluid card text-center rounded border-info border-left-0 border-right-0">
+    <div class="card-body">
+        <h1>
+            ${principal.username}'s profile
+        </h1>
+    </div>
 </div>
 <div id="content" class="container p-2 text-center">
-    <sf:form action="/saveTask" modelAttribute="task" method='POST'>
-        <C:hasBindErrors name="task">
-            <div id="taskCreationErrors" class="alert alert-danger">
-                <sf:errors path="*"/>
-            </div>
-        </C:hasBindErrors>
-        <div class="form-group">
-            <sf:label path="title">Title</sf:label>
-            <sf:input path="title" cssClass="form-control" required="true" placeholder="Title"></sf:input>
+    <div class="row">
+        <div class="col-sm-12 bg-dark text-light font-weight-bold">
+            Created tasks
         </div>
-        <div class="form-group">
-            <sf:label path="description">Description</sf:label>
-            <sf:textarea path="description" cssClass="form-control" placeholder="Description"></sf:textarea>
+        <div class="col-sm-12 border-bottom">
+            ${allCreatedTasks}
         </div>
-        <div class="form-group">
-            <sf:label path="date">Date (HH:MM DD-MM-YYYY)</sf:label>
-            <sf:input  path="date" cssClass="form-control" required="true"></sf:input>
+        <div class="col-sm-12 bg-dark text-light font-weight-bold">
+            Completed tasks
         </div>
-        <div class="form-group">
-            <sf:hidden path="done"></sf:hidden>
+        <div class="col-sm-12 border-bottom">
+            ${allCompletedTasks}
         </div>
-        <button type="submit" class="btn btn-outline-secondary">Save task</button>
-    </sf:form>
+    </div>
 </div>
 <div id="footer" class="container-fluid bg-dark text-light text-center fixed-bottom">
     &copy; 2018 ToDoList
