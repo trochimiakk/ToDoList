@@ -48,4 +48,9 @@ public class TaskService {
 
         return userStats;
     }
+
+    @Transactional
+    public TaskModel findTaskById(long taskId) {
+        return taskDao.findTaskById(taskId);
+    }
 }

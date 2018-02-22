@@ -71,6 +71,7 @@
                         <th>Completed</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,18 +87,23 @@
                                     <td>
                                         <img src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
                                     </td>
-                                    <td>
-                                        <a href="<c:url value="/tasks/${task.id}/markAsDone"/>">
-                                        <button type="button" class="btn btn-outline-primary">Done!</button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="<c:url value="/tasks/${task.id}/details"/>">
-                                            <button type="button" class="btn btn-outline-secondary">More details</button>
-                                        </a>
-                                    </td>
                                 </c:otherwise>
                             </c:choose>
+                            <td>
+                                <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/markAsDone"/>">
+                                    <button type="button" class="btn btn-outline-primary">Done!</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/details"/>">
+                                    <button type="button" class="btn btn-outline-secondary">More details</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/delete"/>">
+                                    <button type="button" class="btn btn-outline-dark">Delete</button>
+                                </a>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

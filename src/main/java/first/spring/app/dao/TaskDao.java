@@ -72,4 +72,8 @@ public class TaskDao {
                 .list();
         return taskList;
     }
+
+    public TaskModel findTaskById(long taskId) {
+        return sessionFactory.getCurrentSession().get(TaskModel.class, taskId);
+    }
 }
