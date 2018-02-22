@@ -28,7 +28,7 @@
 <div id="header" class="container-fluid">
     <img src="<c:url value="/resources/img/logo.png"/>" class="logoImg"/>
 </div>
-<div id="content" class="container p-2">
+<div id="content" class="container p-2 mb-5">
     <div id="cards" class="card-group text-center p-2">
         <div class="card text-center">
             <div class="card-header bg-success text-light">

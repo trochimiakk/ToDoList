@@ -35,7 +35,7 @@
                     <a class="nav-link" href="/tasks">Create task</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/users/${principal.username}/tasks/today">Today's tasks <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Today's tasks <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/${principal.username}/tasks/other">Other tasks</a>
@@ -49,14 +49,17 @@
         </div>
     </nav>
 </div>
-<div id="header" class="container-fluid card text-center rounded border-info border-left-0 border-right-0">
-    <div class="card-body">
-        <h2>
-            Today's tasks
-        </h2>
+<div id="header" class="container-fluid">
+    <img src="<c:url value="/resources/img/logo.png"/>" class="logoImg"/>
+    <div id="pageTitle" class="mt-1 card text-center rounded border-info border-left-0 border-right-0">
+        <div class="card-body">
+            <h2>
+                Today's tasks
+            </h2>
+        </div>
     </div>
 </div>
-<div id="content" class="container p-2 text-center">
+<div id="content" class="container p-2 mb-5 text-center">
     <c:choose>
         <c:when test="${taskList.size() > 0}">
             <div class="table-responsive">

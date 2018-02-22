@@ -41,18 +41,6 @@ public class TaskDao {
         return taskList;
     }
 
-    public List<TaskModel> findNotTodaysTaskByUsername(String username) {
-        LocalDateTime beginningOfToday = LocalDateTime.now().withHour(0).withMinute(0);
-        LocalDateTime beginningOfTomorrow = LocalDateTime.now().plusDays(1).withHour(0).withMinute(0);
-        List<TaskModel> taskList = sessionFactory.getCurrentSession()
-                .createQuery("from TaskModel t where t.user.username =:username and t.date <= :beginningOfToday and t.date >= :beginningOfTomorrow", TaskModel.class)
-                .setParameter("username", username)
-                .setParameter("beginningOfToday", beginningOfToday)
-                .setParameter("beginningOfTomorrow", beginningOfTomorrow)
-                .list();
-        return taskList;
-    }
-
     public Long countTasksByUsername(String username) {
         return sessionFactory.getCurrentSession()
                 .createQuery("select count(*) from TaskModel t where t.user.username =:username", Long.class)
@@ -63,5 +51,25 @@ public class TaskDao {
         return sessionFactory.getCurrentSession()
                 .createQuery("select count(*) from TaskModel t where t.user.username =:username and t.done = true", Long.class)
                 .setParameter("username", username).getSingleResult();
+    }
+
+    public List<TaskModel> findMissedTasksByUsername(String username) {
+        LocalDateTime now = LocalDateTime.now();
+        List<TaskModel> taskList = sessionFactory.getCurrentSession()
+                .createQuery("from TaskModel t where t.user.username =:username and t.date < :now and t.done = false order by t.date", TaskModel.class)
+                .setParameter("username", username)
+                .setParameter("now", now)
+                .list();
+        return taskList;
+    }
+
+    public List<TaskModel> findFutureTasksByUsername(String username) {
+        LocalDateTime beginningOfTomorrow = LocalDateTime.now().plusDays(1).withHour(0).withMinute(0);
+        List<TaskModel> taskList = sessionFactory.getCurrentSession()
+                .createQuery("from TaskModel t where t.user.username =:username and t.date >= :beginningOfTomorrow order by t.date", TaskModel.class)
+                .setParameter("username", username)
+                .setParameter("beginningOfTomorrow", beginningOfTomorrow)
+                .list();
+        return taskList;
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TaskController {
@@ -46,10 +47,20 @@ public class TaskController {
     }
 
     @GetMapping("/users/{username}/tasks/today")
-    public String tasks(@PathVariable("username") String username, Model model){
+    public String todaysTasks(@PathVariable("username") String username, Model model){
 
         model.addAttribute("taskList", taskService.findTodaysTaskByUsername(username));
         return "todaysTasks";
+
+    }
+
+    @GetMapping("/users/{username}/tasks/other")
+    public String notTodaysTasks(@PathVariable("username") String username, Model model){
+
+        Map<String, List<TaskModel>> otherTasks = taskService.findNotTodaysTaskByUsername(username);
+        model.addAttribute("missedTasks", otherTasks.get("missedTasks"));
+        model.addAttribute("futureTasks", otherTasks.get("futureTasks"));
+        return "otherTasks";
 
     }
 

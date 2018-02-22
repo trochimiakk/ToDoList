@@ -22,7 +22,7 @@
 <body>
 <div id="nav" class="sticky-top">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="/"><img src="<c:url value="/resources/img/logo-small.png"/>" width="40" height="35"> ToDoList</a>        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="#"><img src="<c:url value="/resources/img/logo-small.png"/>" width="40" height="35"> ToDoList</a>        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
@@ -51,7 +51,7 @@
 <div id="header" class="container-fluid">
     <img src="<c:url value="/resources/img/logo.png"/>" class="logoImg"/>
 </div>
-<div id="content" class="container p-2">
+<div id="content" class="container p-2 mb-5">
     <div id="features" class="card-group text-center p-2">
         <div class="card border-info">
             <img class="card-img-top" src="<c:url value="/resources/img/first_feaure.jpg"/>" alt="Card image cap">

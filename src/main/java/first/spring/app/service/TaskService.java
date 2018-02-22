@@ -32,8 +32,12 @@ public class TaskService {
     }
 
     @Transactional
-    public List<TaskModel> findNotTodaysTaskByUsername(String username) {
-        return taskDao.findNotTodaysTaskByUsername(username);
+    public Map<String, List<TaskModel>> findNotTodaysTaskByUsername(String username) {
+        Map<String, List<TaskModel>> otherTasks = new HashMap<>();
+        otherTasks.put("missedTasks", taskDao.findMissedTasksByUsername(username));
+        otherTasks.put("futureTasks", taskDao.findFutureTasksByUsername(username));
+
+        return otherTasks;
     }
 
     @Transactional
