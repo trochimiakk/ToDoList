@@ -53,4 +53,9 @@ public class TaskService {
     public TaskModel findTaskById(long taskId) {
         return taskDao.findTaskById(taskId);
     }
+
+    @Transactional
+    public void deleteTask(TaskModel task) {
+        taskDao.deleteTask(task);
+    }
 }

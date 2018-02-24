@@ -14,11 +14,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>Spring MVC ToDoList</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>">
     <script src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/resources/js/ajax.js"/>"></script>
 </head>
 <body>
 <div id="nav" class="sticky-top">
@@ -68,7 +71,7 @@
                 </h3>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <div id="missedTasks" class="table-responsive">
                     <table class="table table-striped">
                         <thead class="bg-danger text-light">
                         <tr>
@@ -82,33 +85,34 @@
                         </thead>
                         <tbody>
                         <c:forEach var="task" items="${missedTasks}">
-                            <tr>
+                            <tr id="task${task.id}">
                                 <td><c:out value="${task.title}"/></td>
                                 <td><c:out value="${task.formattedDate}"/></td>
                                 <c:choose>
                                     <c:when test="${task.done}">
-                                        <td><img src="<c:url value="/resources/img/checked.png"/>" width="25" height="25"/></td>
+                                        <td>
+                                            <img id="imgTask${task.id}" src="<c:url value="/resources/img/checked.png"/>" width="25" height="25"/>
+                                        </td>
+                                        <td>
+                                            <button id="markAsDoneTask${task.id}" type="button" disabled class="btn btn-outline-primary">Done!</button>
+                                        </td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>
-                                            <img src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
+                                            <img id="imgTask${task.id}" src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
+                                        </td>
+                                        <td>
+                                            <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary">Done!</button>
                                         </td>
                                     </c:otherwise>
                                 </c:choose>
                                 <td>
-                                    <a href="<c:url value="/tasks/${task.id}/markAsDone"/>">
-                                        <button type="button" class="btn btn-outline-primary">Done!</button>
-                                    </a>
-                                </td>
-                                <td>
                                     <a href="<c:url value="/tasks/${task.id}/details"/>">
-                                        <button type="button" class="btn btn-outline-secondary">More details</button>
+                                        <button id="moreDetailsTask${task.id}" type="button" class="btn btn-outline-secondary">More details</button>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/delete"/>">
-                                        <button type="button" class="btn btn-outline-dark">Delete</button>
-                                    </a>
+                                    <button id="deleteTask${task.id}" type="button" class="btn btn-outline-dark deleteButton">Delete</button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -124,7 +128,7 @@
                 Future tasks
             </h3>
         </div>
-        <div class="card-body">
+        <div id="futureTasks" class="card-body">
             <c:choose>
                 <c:when test="${futureTasks.size() > 0}">
                     <div class="table-responsive">
@@ -146,28 +150,29 @@
                                     <td><c:out value="${task.formattedDate}"/></td>
                                     <c:choose>
                                         <c:when test="${task.done}">
-                                            <td><img src="<c:url value="/resources/img/checked.png"/>" width="25" height="25"/></td>
+                                            <td>
+                                                <img id="imgTask${task.id}" src="<c:url value="/resources/img/checked.png"/>" width="25" height="25"/>
+                                            </td>
+                                            <td>
+                                                <button id="markAsDoneTask${task.id}" type="button" disabled class="btn btn-outline-primary">Done!</button>
+                                            </td>
                                         </c:when>
                                         <c:otherwise>
                                             <td>
-                                                <img src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
+                                                <img id="imgTask${task.id}" src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
+                                            </td>
+                                            <td>
+                                                <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary">Done!</button>
                                             </td>
                                         </c:otherwise>
                                     </c:choose>
                                     <td>
-                                        <a href="<c:url value="/tasks/${task.id}/markAsDone"/>">
-                                            <button type="button" class="btn btn-outline-primary">Done!</button>
-                                        </a>
-                                    </td>
-                                    <td>
                                         <a href="<c:url value="/tasks/${task.id}/details"/>">
-                                            <button type="button" class="btn btn-outline-secondary">More details</button>
+                                            <button id="moreDetailsTask${task.id}" type="button" class="btn btn-outline-secondary">More details</button>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/delete"/>">
-                                            <button type="button" class="btn btn-outline-dark">Delete</button>
-                                        </a>
+                                        <button id="deleteTask${task.id}" type="button" class="btn btn-outline-dark deleteButton">Delete</button>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -177,9 +182,9 @@
                 </c:when>
                 <c:otherwise>
                     <div class="text-center">
-                        <h3>
-                            You do not have any future task...
-                        </h3>
+                        <h2>
+                            You do not have any task...
+                        </h2>
                     </div>
                 </c:otherwise>
             </c:choose>

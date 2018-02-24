@@ -7,25 +7,31 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 <%@ taglib prefix="C" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>Spring MVC ToDoList</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>">
     <script src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/resources/js/ajax.js"/>"></script>
 </head>
 <body>
 <div id="nav" class="sticky-top">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="/"><img src="<c:url value="/resources/img/logo-small.png"/>" width="40" height="35"/> ToDoList</a>        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <a class="navbar-brand" href="/"><img src="<c:url value="/resources/img/logo-small.png"/>" width="40"
+                                              height="35"/> ToDoList</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
@@ -42,7 +48,9 @@
                 </li>
             </ul>
 
-            <a href="<c:url value="/users/${principal.username}"/>"><button type="button" class="btn btn-outline-success">Welcome, ${principal.username}</button></a>
+            <a href="<c:url value="/users/${principal.username}"/>">
+                <button type="button" class="btn btn-outline-success">Welcome, ${principal.username}</button>
+            </a>
             <sf:form action="/logout" method="post">
                 <button type="submit" class="btn btn-outline-info">Sign out</button>
             </sf:form>
@@ -63,7 +71,7 @@
     <c:choose>
         <c:when test="${taskList.size() > 0}">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table id="todaysTasks" class="table table-striped">
                     <thead class="thead-dark">
                     <tr>
                         <th>Title</th>
@@ -76,33 +84,34 @@
                     </thead>
                     <tbody>
                     <c:forEach var="task" items="${taskList}">
-                        <tr>
+                        <tr id="task${task.id}">
                             <td><c:out value="${task.title}"/></td>
                             <td><c:out value="${task.time}"/></td>
                             <c:choose>
                                 <c:when test="${task.done}">
-                                    <td><img src="<c:url value="/resources/img/checked.png"/>" width="25" height="25"/></td>
+                                    <td>
+                                        <img id="imgTask${task.id}" src="<c:url value="/resources/img/checked.png"/>" width="25" height="25"/>
+                                    </td>
+                                    <td>
+                                        <button id="markAsDoneTask${task.id}" type="button" disabled class="btn btn-outline-primary">Done!</button>
+                                    </td>
                                 </c:when>
                                 <c:otherwise>
                                     <td>
-                                        <img src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
+                                        <img id="imgTask${task.id}" src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
+                                    </td>
+                                    <td>
+                                        <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary">Done!</button>
                                     </td>
                                 </c:otherwise>
                             </c:choose>
                             <td>
-                                <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/markAsDone"/>">
-                                    <button type="button" class="btn btn-outline-primary">Done!</button>
-                                </a>
-                            </td>
-                            <td>
                                 <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/details"/>">
-                                    <button type="button" class="btn btn-outline-secondary">More details</button>
+                                    <button id="moreDetailsTask${task.id}" type="button" class="btn btn-outline-secondary">More details</button>
                                 </a>
                             </td>
                             <td>
-                                <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/delete"/>">
-                                    <button type="button" class="btn btn-outline-dark">Delete</button>
-                                </a>
+                                <button id="deleteTask${task.id}" type="button" class="btn btn-outline-dark deleteButton">Delete</button>
                             </td>
                         </tr>
                     </c:forEach>

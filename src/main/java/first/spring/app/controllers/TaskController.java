@@ -1,17 +1,17 @@
 package first.spring.app.controllers;
 
+import first.spring.app.json.JsonResponse;
 import first.spring.app.models.TaskModel;
 import first.spring.app.models.UserModel;
 import first.spring.app.service.TaskService;
 import first.spring.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -70,6 +70,14 @@ public class TaskController {
         model.addAttribute("task", taskService.findTaskById(taskId));
 
         return "taskDetails";
+    }
+
+    @DeleteMapping(value = "/deleteTask")
+    @ResponseBody
+    public ResponseEntity<JsonResponse> deleteTask(@RequestBody TaskModel task){
+        taskService.deleteTask(task);
+        JsonResponse response = new JsonResponse("The task was deleted successfully.");
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
 }

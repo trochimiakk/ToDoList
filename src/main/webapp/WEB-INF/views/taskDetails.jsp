@@ -14,11 +14,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>Spring MVC ToDoList</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>">
     <script src="<c:url value="/resources/js/jquery-3.3.1.min.js"/>"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/resources/js/ajax.js"/>"></script>
 </head>
 <body>
 <div id="nav" class="sticky-top">
@@ -41,7 +44,8 @@
                     <a class="nav-link" href="/users/${principal.username}/tasks/today">Today's tasks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/users/${principal.username}/tasks/other">Other tasks <span class="sr-only">(current)</span></a>
+                    <a class="nav-link active" href="/users/${principal.username}/tasks/other">Other tasks <span
+                            class="sr-only">(current)</span></a>
                 </li>
             </ul>
 
@@ -65,57 +69,72 @@
     </div>
 </div>
 <div id="content" class="container p-2 mb-5 text-center">
-    <div class="card">
-        <div class="card-header text-info">
-            <h5>
-                Date
-            </h5>
-        </div>
-        <div class="card-body">
-            ${task.formattedDate}
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header text-info">
-            <h5>
-                Description
-            </h5>
-        </div>
-        <div class="card-body">
+    <div class="table-responsive">
+        <table id="taskDetails" class="table">
+            <tbody>
+            <tr class="bg-info text-light font-weight-bold">
+                <td>
+                    Date:
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <c:out value="${task.formattedDate}"/>
+                </td>
+            </tr>
+            <tr class="bg-info text-light font-weight-bold">
+                <td>
+                    Description:
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <c:choose>
+                        <c:when test="${task.description.equals('')}">
+                            Task does not contain description
+                        </c:when>
+                        <c:otherwise>
+                            ${task.description}
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            <tr class="bg-info text-light font-weight-bold">
+                <td>
+                    Done:
+                </td>
+            </tr>
             <c:choose>
-                <c:when test="${task.description.equals('')}">
-                    Task does not contain description
-                </c:when>
-                <c:otherwise>
-                    ${task.description}
-                </c:otherwise>
+            <c:when test="${task.done}">
+                <tr>
+                    <td>
+                        <img src="<c:url value="/resources/img/checked.png"/>" width="35" height="35"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="markAsDoneTask${task.id}" type="button" disabled class="btn btn-outline-primary">Done!</button>
+                        <button id="deleteTask${task.id}" type="button" class="btn btn-outline-dark deleteButton">Delete
+                        </button>
+                    </td>
+                </tr>
+            </c:when>
+            <c:otherwise>
+                <tr>
+                    <td>
+                        <img src="<c:url value="/resources/img/unchecked.png"/>" width="35" height="35"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary">Done!</button>
+                        <button id="deleteTask${task.id}" type="button" class="btn btn-outline-dark deleteButton">Delete
+                        </button>
+                    </td>
+                </tr>
+            </c:otherwise>
             </c:choose>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header text-info">
-            <h5>
-                Completed
-            </h5>
-        </div>
-        <div class="card-body">
-            <c:choose>
-                <c:when test="${task.done}">
-                    <img src="<c:url value="/resources/img/checked.png"/>" width="35" height="35"/>
-                </c:when>
-                <c:otherwise>
-                    <img src="<c:url value="/resources/img/unchecked.png"/>" width="35" height="35"/>
-                </c:otherwise>
-            </c:choose>
-        </div>
-        <div class="card-footer">
-            <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/markAsDone"/>">
-                <button type="button" class="btn btn-outline-primary">Done!</button>
-            </a>
-            <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/delete"/>">
-                <button type="button" class="btn btn-outline-dark">Delete</button>
-            </a>
-        </div>
+        </table>
     </div>
 </div>
 <div id="footer" class="container-fluid bg-dark text-light text-center fixed-bottom">

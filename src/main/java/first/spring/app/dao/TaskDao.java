@@ -76,4 +76,8 @@ public class TaskDao {
     public TaskModel findTaskById(long taskId) {
         return sessionFactory.getCurrentSession().get(TaskModel.class, taskId);
     }
+
+    public void deleteTask(TaskModel task) {
+        sessionFactory.getCurrentSession().delete(task);
+    }
 }
