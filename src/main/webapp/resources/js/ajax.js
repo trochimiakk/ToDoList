@@ -6,8 +6,8 @@ function checkIfTableHasAnyRow(taskTable, taskTableParentDiv) {
     }
 }
 
-function removeButton(deleteButton){
-    deleteButton.remove();
+function removeButton(buttonToRemove){
+    buttonToRemove.remove();
 }
 
 function removeTable(taskTable){
@@ -20,10 +20,12 @@ function createInformationDiv(taskTableParentDiv){
     div.appendTo(taskTableParentDiv);
 }
 
-function createSuccessInformationSpan(deleteButtonParentTd) {
-    deleteButtonParentTd.append($('<span/>', {
-        class: 'text-success',
-        text: "Deleted successfully.",
+function createSuccessInformationButton(buttonParentTd, action) {
+    var text = action == "deleted" ? "Deleted successfully." : "Status updated";
+    buttonParentTd.prepend($('<button/>', {
+        class: 'btn btn-outline-success',
+        text: text,
+        disabled: 'disabled'
     }));
 }
 
@@ -85,7 +87,7 @@ function deleteTask(){
                 var deleteButtonParentTd = deleteButton.closest("td");
                 var deleteButtonParentTr = deleteButtonParentTd.closest("tr");
                 removeButton(deleteButton);
-                createSuccessInformationSpan(deleteButtonParentTd);
+                createSuccessInformationButton(deleteButtonParentTd, "deleted");
                 disableDoneAndMoreDetailsButtons(taskId);
                 setDeletedTrRemoveTimeout(deleteButtonParentTr, taskTable, taskTableParentDiv);
                 //task details view
@@ -102,6 +104,44 @@ function deleteTask(){
 
 }
 
+function markTaskAsDone(){
+
+    var token = $("meta[name = '_csrf']").attr("content");
+    var header = $("meta[name = '_csrf_header']").attr("content");
+
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        }
+    });
+
+    var doneButton = $(this);
+    var taskId = doneButton.attr("id").replace("markAsDoneTask", "");
+    var data = {"id": taskId};
+
+    $.ajax({
+        type: "PUT",
+        url: "/markTaskAsDone",
+        data: JSON.stringify(data),
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+
+            var taskImgId = "#imgTask" + taskId;
+            var doneButtonParentTd = doneButton.closest("td");
+            removeButton(doneButton);
+            $(taskImgId).attr("src", "/resources/img/checked.png");
+            createSuccessInformationButton(doneButtonParentTd, "markedAsDone");
+
+        },
+        error: function () {
+            console.log("Error while updating task's status");
+        }
+    })
+
+}
+
 $(document).ready(function () {
     $(".deleteButton").click(deleteTask);
+    $(".doneButton").click(markTaskAsDone);
 })

@@ -102,7 +102,7 @@
                                             <img id="imgTask${task.id}" src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
                                         </td>
                                         <td>
-                                            <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary">Done!</button>
+                                            <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary doneButton">Done!</button>
                                         </td>
                                     </c:otherwise>
                                 </c:choose>
@@ -162,7 +162,7 @@
                                                 <img id="imgTask${task.id}" src="<c:url value="/resources/img/unchecked.png"/>" width="25" height="25">
                                             </td>
                                             <td>
-                                                <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary">Done!</button>
+                                                <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary doneButton">Done!</button>
                                             </td>
                                         </c:otherwise>
                                     </c:choose>

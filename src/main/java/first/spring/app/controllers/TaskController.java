@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -34,16 +35,16 @@ public class TaskController {
     }
 
     @PostMapping("/saveTask")
-    public String saveTask(Principal principal, @ModelAttribute("task") @Valid TaskModel taskModel, Errors errors){
+    public String saveTask(Principal principal, @ModelAttribute("task") @Valid TaskModel taskModel, Errors errors, RedirectAttributes model){
         if (errors.hasErrors()){
             return "createTask";
         }
 
-        UserModel userModel = userService.findUserByUsername(principal.getName());
-        taskModel.setUser(userModel);
-        taskService.saveTask(taskModel);
-
-        return "redirect:/";
+        long taskId = taskService.saveTask(taskModel, principal.getName());
+        model.addAttribute("username", principal.getName());
+        model.addAttribute("taskId", taskId);
+        model.addFlashAttribute("task", taskModel);
+        return "redirect:/users/{username}/tasks/{taskId}/details";
     }
 
     @GetMapping("/users/{username}/tasks/today")
@@ -67,17 +68,27 @@ public class TaskController {
     @GetMapping("**/tasks/{taskId}/details")
     public String taskDetails(@PathVariable("taskId") long taskId, Model model){
 
-        model.addAttribute("task", taskService.findTaskById(taskId));
+        if (!model.containsAttribute("task")){
+            model.addAttribute("task", taskService.findTaskById(taskId));
+        }
 
         return "taskDetails";
     }
 
-    @DeleteMapping(value = "/deleteTask")
+    @DeleteMapping("/deleteTask")
     @ResponseBody
     public ResponseEntity<JsonResponse> deleteTask(@RequestBody TaskModel task){
         taskService.deleteTask(task);
         JsonResponse response = new JsonResponse("The task was deleted successfully.");
-        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/markTaskAsDone")
+    @ResponseBody
+    public ResponseEntity<JsonResponse> markTaskAsDone(@RequestBody TaskModel task){
+        taskService.updateTaskStatus(task);
+        JsonResponse response = new JsonResponse("The task's status was changed successfully.");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

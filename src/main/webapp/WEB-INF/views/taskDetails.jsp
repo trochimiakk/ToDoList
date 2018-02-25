@@ -108,26 +108,25 @@
             <c:when test="${task.done}">
                 <tr>
                     <td>
-                        <img src="<c:url value="/resources/img/checked.png"/>" width="35" height="35"/>
+                        <img id="imgTask${task.id}" src="<c:url value="/resources/img/checked.png"/>" width="35" height="35"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <button id="markAsDoneTask${task.id}" type="button" disabled class="btn btn-outline-primary">Done!</button>
-                        <button id="deleteTask${task.id}" type="button" class="btn btn-outline-dark deleteButton">Delete
-                        </button>
+                        <button id="deleteTask${task.id}" type="button" class="btn btn-outline-dark deleteButton">Delete</button>
                     </td>
                 </tr>
             </c:when>
             <c:otherwise>
                 <tr>
                     <td>
-                        <img src="<c:url value="/resources/img/unchecked.png"/>" width="35" height="35"/>
+                        <img id="imgTask${task.id}" src="<c:url value="/resources/img/unchecked.png"/>" width="35" height="35"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary">Done!</button>
+                        <button id="markAsDoneTask${task.id}" type="button" class="btn btn-outline-primary doneButton">Done!</button>
                         <button id="deleteTask${task.id}" type="button" class="btn btn-outline-dark deleteButton">Delete
                         </button>
                     </td>

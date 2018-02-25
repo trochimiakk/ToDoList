@@ -18,8 +18,8 @@ public class TaskDao {
     @Autowired
     SessionFactory sessionFactory;
 
-    public void saveTask(TaskModel task){
-        sessionFactory.getCurrentSession().save(task);
+    public long saveTask(TaskModel task){
+        return (long) sessionFactory.getCurrentSession().save(task);
     }
 
     public List<TaskModel> findTaskByUsername(String username) {
@@ -78,6 +78,12 @@ public class TaskDao {
     }
 
     public void deleteTask(TaskModel task) {
-        sessionFactory.getCurrentSession().delete(task);
+        sessionFactory.getCurrentSession().delete(task.getId());
+    }
+
+    public void updateTask(TaskModel task) {
+        sessionFactory.getCurrentSession().createQuery("update TaskModel t set t.done = true where t.id =:id")
+                .setParameter("id", task.getId())
+                .executeUpdate();
     }
 }

@@ -2,7 +2,9 @@ package first.spring.app.service;
 
 import first.spring.app.dao.TaskDao;
 import first.spring.app.models.TaskModel;
+import first.spring.app.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +16,16 @@ import java.util.Map;
 public class TaskService {
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     TaskDao taskDao;
 
     @Transactional
-    public void saveTask(TaskModel task){
-        taskDao.saveTask(task);
+    public long saveTask(TaskModel task, String username){
+        UserModel userModel = userService.findUserByUsername(username);
+        task.setUser(userModel);
+        return taskDao.saveTask(task);
     }
 
     @Transactional
@@ -57,5 +64,10 @@ public class TaskService {
     @Transactional
     public void deleteTask(TaskModel task) {
         taskDao.deleteTask(task);
+    }
+
+    @Transactional
+    public void updateTaskStatus(TaskModel task) {
+        taskDao.updateTask(task);
     }
 }
