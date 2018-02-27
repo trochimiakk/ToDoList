@@ -33,7 +33,7 @@ public class TaskModel {
     @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", nullable = false)
     private UserModel user;
 
