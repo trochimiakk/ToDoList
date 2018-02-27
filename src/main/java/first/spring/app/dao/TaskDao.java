@@ -77,13 +77,15 @@ public class TaskDao {
         return sessionFactory.getCurrentSession().get(TaskModel.class, taskId);
     }
 
-    public void deleteTask(TaskModel task) {
-        sessionFactory.getCurrentSession().delete(task.getId());
+    public void deleteTask(long taskId) {
+        sessionFactory.getCurrentSession().createQuery("delete TaskModel t where t.id =:taskId")
+                .setParameter("taskId", taskId)
+                .executeUpdate();
     }
 
-    public void updateTask(TaskModel task) {
+    public void updateTask(long taskId) {
         sessionFactory.getCurrentSession().createQuery("update TaskModel t set t.done = true where t.id =:id")
-                .setParameter("id", task.getId())
+                .setParameter("id", taskId)
                 .executeUpdate();
     }
 }

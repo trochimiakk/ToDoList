@@ -1,8 +1,8 @@
 package first.spring.app.controllers;
 
+import first.spring.app.ajax.AjaxRequestParameters;
 import first.spring.app.json.JsonResponse;
 import first.spring.app.models.TaskModel;
-import first.spring.app.models.UserModel;
 import first.spring.app.service.TaskService;
 import first.spring.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,16 +77,16 @@ public class TaskController {
 
     @DeleteMapping("/deleteTask")
     @ResponseBody
-    public ResponseEntity<JsonResponse> deleteTask(@RequestBody TaskModel task){
-        taskService.deleteTask(task);
+    public ResponseEntity<JsonResponse> deleteTask(Principal principal, @RequestBody AjaxRequestParameters ajaxRequestParameters){
+        taskService.deleteTask(ajaxRequestParameters.getTaskId(), principal.getName());
         JsonResponse response = new JsonResponse("The task was deleted successfully.");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/markTaskAsDone")
     @ResponseBody
-    public ResponseEntity<JsonResponse> markTaskAsDone(@RequestBody TaskModel task){
-        taskService.updateTaskStatus(task);
+    public ResponseEntity<JsonResponse> markTaskAsDone(Principal principal, @RequestBody AjaxRequestParameters ajaxRequestParameters){
+        taskService.updateTaskStatus(ajaxRequestParameters.getTaskId(), principal.getName());
         JsonResponse response = new JsonResponse("The task's status was changed successfully.");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

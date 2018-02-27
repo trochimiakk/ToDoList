@@ -70,7 +70,7 @@ function deleteTask(){
 
     var deleteButton = $(this);
     var taskId = deleteButton.attr("id").replace("deleteTask", "");
-    var data = {"id": taskId};
+    var data = {"taskId": taskId};
 
     $.ajax({
         type: "DELETE",
@@ -117,7 +117,7 @@ function markTaskAsDone(){
 
     var doneButton = $(this);
     var taskId = doneButton.attr("id").replace("markAsDoneTask", "");
-    var data = {"id": taskId};
+    var data = {"taskId": taskId};
 
     $.ajax({
         type: "PUT",
