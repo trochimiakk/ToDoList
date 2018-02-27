@@ -1,5 +1,7 @@
 package first.spring.app.models;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
@@ -15,16 +17,16 @@ public class UserModel {
 
     @Id
     @Column(name = "username")
-    @Size(min = 3, max = 20, message = "Username length must be between 3 and 20")
+    @Length(min = 3, max = 20, message = "{user.username.length}")
     private String username;
 
     @Column(name = "email", unique = true, nullable = false)
-    @Email(message = "Email address is invalid")
-    @Size(max = 50, message = "Email adress length must be less than or equal to 50")
+    @Email(message = "{user.email.invalid}")
+    @Length(max = 50, message = "{user.email.length}")
     private String email;
 
     @Column(name = "password", nullable = false)
-    @Size(min = 5, max = 100, message = "Password length must be between 5 and 100")
+    @Length(min = 5, max = 100, message = "{user.password.length}")
     private String password;
 
     @Transient

@@ -1,5 +1,6 @@
 package first.spring.app.models;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -18,18 +19,18 @@ public class TaskModel {
     private long id;
 
     @Column(name = "title", nullable = false)
-    @Size(min = 3, max = 60, message = "Title length must be between 3 and 20")
+    @Length(min = 3, max = 20, message = "{task.title.length}")
     private  String title;
 
     @Column(name = "description", nullable = false)
-    @Size(max = 1000, message = "Description length must be less than or equal to 1000")
+    @Length(max = 1000, message = "{task.description.length}")
     private String description;
 
     @Column(name = "done", nullable = false)
     private boolean done;
 
     @Column(name = "date", nullable = false)
-    @Future(message = "Date must be a future date")
+    @Future(message = "{task.date.future}")
     @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime date;
 
