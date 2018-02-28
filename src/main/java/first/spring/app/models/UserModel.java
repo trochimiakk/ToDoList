@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 public class UserModel {
 
     public UserModel(){
-        this.role = "USER";
         this.enabled = true;
     }
 
@@ -35,15 +34,17 @@ public class UserModel {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @Column(name = "role")
-    private String role;
+    @ManyToOne
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_name"),
+            inverseJoinColumns = @JoinColumn(name = "role_name"))
+    private RoleModel role;
 
 
-    public String getRole() {
+    public RoleModel getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(RoleModel role) {
         this.role = role;
     }
 

@@ -134,8 +134,9 @@ function markTaskAsDone(){
             createSuccessInformationButton(doneButtonParentTd, "markedAsDone");
 
         },
-        error: function () {
+        error: function (xhr) {
             console.log("Error while updating task's status");
+            console.log(xhr.status)
         }
     })
 
