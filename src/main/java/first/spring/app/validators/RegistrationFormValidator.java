@@ -20,11 +20,11 @@ public class RegistrationFormValidator implements Validator{
     public void validate(Object obj, Errors errors) {
         UserModel userModel = (UserModel) obj;
 
-        if (userService.findUserByEmail(userModel.getEmail().toLowerCase()) != null){
+        if (userService.checkIfUserWithEmailAlreadyExists(userModel.getEmail()) == true){
             errors.reject("email", "User with this email already exists.");
         }
 
-        if (userService.findUserByUsername(userModel.getUsername().toLowerCase()) != null){
+        if (userService.checkIfUserWithUsernameAlreadyExists(userModel.getUsername()) == true){
             errors.reject("username", "User with this username already exists.");
         }
 

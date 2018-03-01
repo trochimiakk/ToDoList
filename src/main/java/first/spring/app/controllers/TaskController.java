@@ -35,7 +35,7 @@ public class TaskController {
     }
 
     @PostMapping("/saveTask")
-    public String saveTask(Principal principal, @ModelAttribute("task") @Valid TaskModel taskModel, Errors errors, RedirectAttributes model){
+    public String saveTask(Principal principal, @ModelAttribute("task") @Valid TaskModel taskModel, Errors errors, RedirectAttributes model) {
         if (errors.hasErrors()){
             return "createTask";
         }

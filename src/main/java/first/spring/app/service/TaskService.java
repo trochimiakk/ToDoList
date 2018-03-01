@@ -1,6 +1,7 @@
 package first.spring.app.service;
 
 import first.spring.app.dao.TaskDao;
+import first.spring.app.exception.UserNotFoundException;
 import first.spring.app.models.TaskModel;
 import first.spring.app.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,9 @@ public class TaskService {
     TaskDao taskDao;
 
     @Transactional
-    public long saveTask(TaskModel task, String username){
-        UserModel userModel = userService.findUserByUsername(username);
+    public long saveTask(TaskModel task, String username) {
+        UserModel userModel = new UserModel();
+        userModel.setUsername(username);
         task.setUser(userModel);
         return taskDao.saveTask(task);
     }
