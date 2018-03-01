@@ -57,6 +57,21 @@ function setDeletedTrRemoveTimeout(deleteButtonParentTr, taskTable, taskTablePar
     }, 1500);
 }
 
+function showErrorMessage() {
+    $("#content").empty();
+    var errorContentDiv = $("<div class='card text-center'></div>");
+    var errorHeaderDiv = $("<div class='card-header bg-danger text-light'></div>");
+    var errorBodyDiv = $("<div class='card-body'></div>");
+    var errorFooterDiv = $("<div class='card-footer'></div>");
+    errorHeaderDiv.append($("<h1>Sorry...</h1>"));
+    errorBodyDiv.append($("<p class='card-text'></p>").append($("<h3>Something went wrong</h3>")));
+    errorFooterDiv.append($("<a href='/'></a>").append($("<button class='btn btn-outline-danger'>Home page</button>")));
+    errorContentDiv.append(errorHeaderDiv)
+        .append(errorBodyDiv)
+        .append(errorFooterDiv);
+    $("#content").append(errorContentDiv);
+}
+
 function deleteTask(){
 
     var token = $("meta[name = '_csrf']").attr("content");
@@ -78,7 +93,7 @@ function deleteTask(){
         data: JSON.stringify(data),
         dataType: "json",
         contentType: "application/json",
-        success: function (data) {
+        success: function () {
 
             var taskTable = deleteButton.closest("table");
             var taskTableParentDiv = taskTable.closest("div");
@@ -98,7 +113,7 @@ function deleteTask(){
 
         },
         error: function () {
-            console.log("Error while deleting task");
+            showErrorMessage();
         }
     })
 
@@ -125,7 +140,7 @@ function markTaskAsDone(){
         data: JSON.stringify(data),
         dataType: "json",
         contentType: "application/json",
-        success: function (data) {
+        success: function () {
 
             var taskImgId = "#imgTask" + taskId;
             var doneButtonParentTd = doneButton.closest("td");
@@ -134,9 +149,8 @@ function markTaskAsDone(){
             createSuccessInformationButton(doneButtonParentTd, "markedAsDone");
 
         },
-        error: function (xhr) {
-            console.log("Error while updating task's status");
-            console.log(xhr.status)
+        error: function () {
+            showErrorMessage();
         }
     })
 
