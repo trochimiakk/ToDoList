@@ -69,7 +69,7 @@
 </div>
 <div id="content" class="container p-2 mb-5 text-center">
     <c:choose>
-        <c:when test="${taskList.size() > 0}">
+        <c:when test="${todaysTasksList.size() > 0}">
             <div class="table-responsive">
                 <table id="todaysTasks" class="table table-striped">
                     <thead class="thead-dark">
@@ -83,7 +83,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="task" items="${taskList}">
+                    <c:forEach var="task" items="${todaysTasksList}">
                         <tr id="task${task.id}">
                             <td><c:out value="${task.title}"/></td>
                             <td><c:out value="${task.time}"/></td>

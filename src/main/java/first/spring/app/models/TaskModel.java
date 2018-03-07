@@ -1,5 +1,6 @@
 package first.spring.app.models;
 
+import javafx.concurrent.Task;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tasks")
@@ -38,6 +40,16 @@ public class TaskModel {
     @JoinColumn(name = "username", nullable = false)
     private UserModel user;
 
+    public TaskModel(){ }
+
+    public TaskModel(long id, String title, String description, boolean done, LocalDateTime date, UserModel user) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.done = done;
+        this.date = date;
+        this.user = user;
+    }
 
     public long getId() {
         return id;
@@ -95,5 +107,24 @@ public class TaskModel {
 
     public void setUser(UserModel user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskModel taskModel = (TaskModel) o;
+        return id == taskModel.id &&
+                done == taskModel.done &&
+                Objects.equals(title, taskModel.title) &&
+                Objects.equals(description, taskModel.description) &&
+                Objects.equals(date, taskModel.date) &&
+                Objects.equals(user, taskModel.user);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, title, description, done, date, user);
     }
 }

@@ -14,4 +14,25 @@ public class RoleModel {
     @OneToMany(mappedBy = "role")
     private List<UserModel> users;
 
+    public RoleModel() { }
+
+    public RoleModel(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<UserModel> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserModel> users) {
+        this.users = users;
+    }
 }

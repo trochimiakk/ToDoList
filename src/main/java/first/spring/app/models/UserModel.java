@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -12,6 +13,15 @@ public class UserModel {
 
     public UserModel(){
         this.enabled = true;
+    }
+
+    public UserModel(String username, String email, String password, String confirmPassword, boolean enabled, RoleModel role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.enabled = enabled;
+        this.role = role;
     }
 
     @Id
@@ -86,5 +96,24 @@ public class UserModel {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserModel userModel = (UserModel) o;
+        return enabled == userModel.enabled &&
+                Objects.equals(username, userModel.username) &&
+                Objects.equals(email, userModel.email) &&
+                Objects.equals(password, userModel.password) &&
+                Objects.equals(confirmPassword, userModel.confirmPassword) &&
+                Objects.equals(role, userModel.role);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(username, email, password, confirmPassword, enabled, role);
     }
 }

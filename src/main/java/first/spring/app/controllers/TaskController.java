@@ -23,9 +23,6 @@ import java.util.Map;
 public class TaskController {
 
     @Autowired
-    UserService userService;
-
-    @Autowired
     TaskService taskService;
 
     @GetMapping("/tasks")
@@ -50,7 +47,7 @@ public class TaskController {
     @GetMapping("/users/{username}/tasks/today")
     public String todaysTasks(@PathVariable("username") String username, Model model){
 
-        model.addAttribute("taskList", taskService.findTodaysTaskByUsername(username));
+        model.addAttribute("todaysTasksList", taskService.findTodaysTaskByUsername(username));
         return "todaysTasks";
 
     }
@@ -65,7 +62,7 @@ public class TaskController {
 
     }
 
-    @GetMapping("**/tasks/{taskId}/details")
+    @GetMapping("users/{username}/tasks/{taskId}/details")
     public String taskDetails(@PathVariable("taskId") long taskId, Model model){
 
         if (!model.containsAttribute("task")){
@@ -84,11 +81,11 @@ public class TaskController {
     }
 
     @PutMapping("/markTaskAsDone")
-    @ResponseBody
-    public ResponseEntity<JsonResponse> markTaskAsDone(Principal principal, @RequestBody AjaxRequestParameters ajaxRequestParameters){
-        taskService.updateTaskStatus(ajaxRequestParameters.getTaskId(), principal.getName());
-        JsonResponse response = new JsonResponse("The task's status was changed successfully.");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        @ResponseBody
+        public ResponseEntity<JsonResponse> markTaskAsDone(Principal principal, @RequestBody AjaxRequestParameters ajaxRequestParameters){
+            taskService.updateTaskStatus(ajaxRequestParameters.getTaskId(), principal.getName());
+            JsonResponse response = new JsonResponse("The task's status was changed successfully.");
+            return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

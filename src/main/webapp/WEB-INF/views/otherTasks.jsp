@@ -107,7 +107,7 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <td>
-                                    <a href="<c:url value="/tasks/${task.id}/details"/>">
+                                    <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/details"/>">
                                         <button id="moreDetailsTask${task.id}" type="button" class="btn btn-outline-secondary">More details</button>
                                     </a>
                                 </td>
@@ -167,7 +167,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <td>
-                                        <a href="<c:url value="/tasks/${task.id}/details"/>">
+                                        <a href="<c:url value="/users/${principal.username}/tasks/${task.id}/details"/>">
                                             <button id="moreDetailsTask${task.id}" type="button" class="btn btn-outline-secondary">More details</button>
                                         </a>
                                     </td>
