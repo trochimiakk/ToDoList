@@ -1,7 +1,7 @@
 package first.spring.app.service;
 
 import first.spring.app.dao.TaskDao;
-import first.spring.app.exception.UserNotFoundException;
+import first.spring.app.exception.TaskNotFoundException;
 import first.spring.app.models.TaskModel;
 import first.spring.app.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,24 +56,29 @@ public class TaskService {
 
     @Transactional
     @PostAuthorize("returnObject.user.username == principal.username")
-    public TaskModel findTaskById(long taskId) {
+    public TaskModel findTaskById(long taskId) throws TaskNotFoundException {
         return taskDao.findTaskById(taskId);
     }
 
     @Transactional
     @PreAuthorize("@taskService.checkIfUserIsTaskOwner(#taskId, #username)")
-    public void deleteTask(long taskId, String username) {
-        taskDao.deleteTask(taskId);
+    public int deleteTask(long taskId, String username) {
+        return taskDao.deleteTask(taskId);
     }
 
     @Transactional
     @PreAuthorize("@taskService.checkIfUserIsTaskOwner(#taskId, #username)")
-    public void updateTaskStatus(long taskId, String username) {
-        taskDao.updateTask(taskId);
+    public int updateTaskStatus(long taskId, String username) {
+        return taskDao.updateTask(taskId);
     }
 
     public boolean checkIfUserIsTaskOwner(long taskId, String username){
-        TaskModel taskToCheck = findTaskById(taskId);
+        TaskModel taskToCheck = null;
+        try {
+            taskToCheck = findTaskById(taskId);
+        } catch (TaskNotFoundException e) {
+            return false;
+        }
         return taskToCheck.getUser().getUsername().equals(username);
     }
 }

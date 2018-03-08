@@ -1,5 +1,6 @@
 package first.spring.app.dao;
 
+import first.spring.app.exception.TaskNotFoundException;
 import first.spring.app.models.TaskModel;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,18 +74,22 @@ public class TaskDao {
         return taskList;
     }
 
-    public TaskModel findTaskById(long taskId) {
-        return sessionFactory.getCurrentSession().get(TaskModel.class, taskId);
+    public TaskModel findTaskById(long taskId) throws TaskNotFoundException {
+        TaskModel task =  sessionFactory.getCurrentSession().get(TaskModel.class, taskId);
+        if (task != null){
+            return task;
+        }
+        throw new TaskNotFoundException("Task with id: " + taskId + " does not exist.");
     }
 
-    public void deleteTask(long taskId) {
-        sessionFactory.getCurrentSession().createQuery("delete TaskModel t where t.id =:taskId")
+    public int deleteTask(long taskId) {
+        return sessionFactory.getCurrentSession().createQuery("delete TaskModel t where t.id =:taskId")
                 .setParameter("taskId", taskId)
                 .executeUpdate();
     }
 
-    public void updateTask(long taskId) {
-        sessionFactory.getCurrentSession().createQuery("update TaskModel t set t.done = true where t.id =:id")
+    public int updateTask(long taskId) {
+        return sessionFactory.getCurrentSession().createQuery("update TaskModel t set t.done = true where t.id =:id")
                 .setParameter("id", taskId)
                 .executeUpdate();
     }

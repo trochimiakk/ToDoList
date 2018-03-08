@@ -1,6 +1,7 @@
 package first.spring.app.controllers;
 
 import first.spring.app.ajax.AjaxRequestParameters;
+import first.spring.app.exception.TaskNotFoundException;
 import first.spring.app.json.JsonResponse;
 import first.spring.app.models.TaskModel;
 import first.spring.app.service.TaskService;
@@ -63,7 +64,7 @@ public class TaskController {
     }
 
     @GetMapping("users/{username}/tasks/{taskId}/details")
-    public String taskDetails(@PathVariable("taskId") long taskId, Model model){
+    public String taskDetails(@PathVariable("taskId") long taskId, Model model) throws TaskNotFoundException {
 
         if (!model.containsAttribute("task")){
             model.addAttribute("task", taskService.findTaskById(taskId));
