@@ -18,9 +18,6 @@ import java.util.Map;
 public class TaskService {
 
     @Autowired
-    UserService userService;
-
-    @Autowired
     TaskDao taskDao;
 
     @Transactional
@@ -29,11 +26,6 @@ public class TaskService {
         userModel.setUsername(username);
         task.setUser(userModel);
         return taskDao.saveTask(task);
-    }
-
-    @Transactional
-    public List<TaskModel> findTaskByUsername(String username){
-        return taskDao.findTaskByUsername(username);
     }
 
     @Transactional
